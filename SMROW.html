@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head> <title>SMROW</title>
+<script src="http://www.java.com/js/deployJava.js"></script>
+</head>
+
+<body>
+<script>
+    var attributes = {codebase: 'file://',
+                      code: 'Smrow.class',
+                      archive: 'SMROWApplet.jar',
+                      width: '800', 
+                      height: '600'};
+    var parameters = {java_arguments: '-Xmx256m'}; // customize per your needs
+    var version = '1.8'; // JDK version
+    deployJava.runApplet(attributes, parameters, version);
+</script>
+</body>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_smrow-master" default="compile.module.smrow-master">
+  <dirname property="module.smrow-master.basedir" file="${ant.file.module_smrow-master}"/>
+  
+  <property name="module.jdk.home.smrow-master" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.smrow-master" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.smrow-master" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.smrow-master" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+  
+  <property name="smrow-master.output.dir" value="${module.smrow-master.basedir}/../out/production/Smrow-master"/>
+  <property name="smrow-master.testoutput.dir" value="${module.smrow-master.basedir}/../out/test/Smrow-master"/>
+  
+  <path id="smrow-master.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="smrow-master.module.production.classpath">
+    <path refid="${module.jdk.classpath.smrow-master}"/>
+    <path refid="library.miglayout-4.0-swing.classpath"/>
+  </path>
+  
+  <path id="smrow-master.runtime.production.module.classpath">
+    <pathelement location="${smrow-master.output.dir}"/>
+    <path refid="library.miglayout-4.0-swing.classpath"/>
+  </path>
+  
+  <path id="smrow-master.module.classpath">
+    <path refid="${module.jdk.classpath.smrow-master}"/>
+    <pathelement location="${smrow-master.output.dir}"/>
+    <path refid="library.miglayout-4.0-swing.classpath"/>
+  </path>
+  
+  <path id="smrow-master.runtime.module.classpath">
+    <pathelement location="${smrow-master.testoutput.dir}"/>
+    <pathelement location="${smrow-master.output.dir}"/>
+    <path refid="library.miglayout-4.0-swing.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.smrow-master">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.smrow-master">
+    <patternset refid="excluded.from.module.smrow-master"/>
+  </patternset>
+  
+  <path id="smrow-master.module.sourcepath">
+    <dirset dir="${module.smrow-master.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.smrow-master" depends="compile.module.smrow-master.production,compile.module.smrow-master.tests" description="Compile module Smrow-master"/>
+  
+  <target name="compile.module.smrow-master.production" depends="register.custom.compilers" description="Compile module Smrow-master; production classes">
+    <mkdir dir="${smrow-master.output.dir}"/>
+    <javac2 destdir="${smrow-master.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.smrow-master}/javac">
+      <compilerarg line="${compiler.args.smrow-master}"/>
+      <bootclasspath refid="smrow-master.module.bootclasspath"/>
+      <classpath refid="smrow-master.module.production.classpath"/>
+      <src refid="smrow-master.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.smrow-master"/>
+    </javac2>
+    
+    <copy todir="${smrow-master.output.dir}">
+      <fileset dir="${module.smrow-master.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.smrow-master.tests" depends="register.custom.compilers,compile.module.smrow-master.production" description="compile module Smrow-master; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.smrow-master" description="cleanup module">
+    <delete dir="${smrow-master.output.dir}"/>
+    <delete dir="${smrow-master.testoutput.dir}"/>
+  </target>
+</project>
